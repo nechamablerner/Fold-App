@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ cartItems = [] }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -23,13 +23,26 @@ const Navbar = () => {
           FOLD
         </button>
 
-        <ul className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}>
-          <li><button onClick={() => scrollTo("menu")}>Menu</button></li>
-          <li><button onClick={() => scrollTo("about")}>Our Story</button></li>
-          <li><button onClick={() => scrollTo("contact")}>Visit Us</button></li>
+        <ul
+          className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}
+        >
           <li>
+            <button onClick={() => scrollTo("menu")}>Menu</button>
+          </li>
+          <li>
+            <button onClick={() => scrollTo("about")}>Our Story</button>
+          </li>
+          <li>
+            <button onClick={() => scrollTo("contact")}>Visit Us</button>
+          </li>
+          {/* <li>
             <button className="navbar__cta" onClick={() => scrollTo("order")}>
               Order Now
+            </button>
+          </li> */}
+          <li>
+            <button className="navbar__cta" onClick={() => scrollTo("cart")}>
+              🛒 Cart ({cartItems.length})
             </button>
           </li>
         </ul>
@@ -39,7 +52,9 @@ const Navbar = () => {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
     </nav>

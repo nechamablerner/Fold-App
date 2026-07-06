@@ -59,12 +59,6 @@ const Footer = () => {
               <li>
                 <a href="#order">App Pickup</a>
               </li>
-              <li>
-                <a href="#order">DoorDash</a>
-              </li>
-              <li>
-                <a href="#order">Uber Eats</a>
-              </li>
             </ul>
           </div>
           <div className="footer__col">

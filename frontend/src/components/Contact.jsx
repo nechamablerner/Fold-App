@@ -2,7 +2,7 @@ import React from "react";
 import "./Contact.css";
 
 const hours = [
-  { day: "Mon – Thu", time: "11:00 AM – 9:00 PM" },
+  { day: "Monday – Thursday", time: "11:00 AM – 9:00 PM" },
   { day: "Friday", time: "11:00 AM – 3:00 PM" },
   { day: "Saturday", time: "Closed" },
   { day: "Sunday", time: "12:00 PM – 9:00 PM" },

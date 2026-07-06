@@ -17,46 +17,21 @@ const Order = () => {
       <div className="order__inner">
         <div className="order__badge">Now taking online orders</div>
         <h2 className="order__title">
-          Ready to fold<br />something good?
+          Ready to fold
+          <br />
+          something good?
         </h2>
         <p className="order__sub">
-          Order ahead for pickup — skip the wait, get your food faster.
-          We'll have it ready exactly when you arrive.
+          Order ahead for pickup — skip the wait, get your food faster. We'll
+          have it ready exactly when you arrive.
         </p>
+
         <div className="order__channels">
-          <a
-            href="#order"
-            className="order__channel order__channel--primary"
-            onClick={(e) => e.preventDefault()}
-          >
-            <span className="order__channel-icon">📱</span>
+          <a href="#menu" className="order__channel order__channel--primary">
+            <span className="order__channel-icon">🛒</span>
             <div>
-              <strong>Order on our app</strong>
+              <strong>Order Now</strong>
               <span>Fastest pickup, loyalty points</span>
-            </div>
-            <span className="order__arrow">→</span>
-          </a>
-          <a
-            href="#order"
-            className="order__channel"
-            onClick={(e) => e.preventDefault()}
-          >
-            <span className="order__channel-icon">🚲</span>
-            <div>
-              <strong>DoorDash delivery</strong>
-              <span>Delivered in ~25 min</span>
-            </div>
-            <span className="order__arrow">→</span>
-          </a>
-          <a
-            href="#order"
-            className="order__channel"
-            onClick={(e) => e.preventDefault()}
-          >
-            <span className="order__channel-icon">🛍️</span>
-            <div>
-              <strong>Uber Eats</strong>
-              <span>Another delivery option</span>
             </div>
             <span className="order__arrow">→</span>
           </a>
