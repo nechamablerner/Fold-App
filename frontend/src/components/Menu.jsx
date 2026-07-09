@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { tagColors } from "../data/TagColors";
+import { getMenu } from "../utils/api";
 import "./Menu.css";
 
 const MenuItem = ({ item, onAdd }) => {
@@ -49,14 +50,7 @@ const Menu = ({ onAddToCart }) => {
     const fetchMenu = async () => {
       try {
         setLoading(true);
-
-        const res = await fetch(
-          "https://47o3metume.execute-api.us-east-1.amazonaws.com/menu",
-        );
-
-        if (!res.ok) throw new Error("Failed to fetch menu");
-
-        const data = await res.json();
+        const data = await getMenu();
         setMenuItems(data);
       } catch (err) {
         setError(err.message);

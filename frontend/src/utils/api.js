@@ -1,7 +1,7 @@
 // Thin wrappers around the four backend Lambda routes (via API Gateway).
 // Base invoke URL for the foldApi HTTP API ($default stage).
 
-const BASE_URL = "https://47o3metume.execute-api.us-east-1.amazonaws.com";
+const BASE_URL = "https://tkzt0gym4e.execute-api.us-east-1.amazonaws.com";
 
 export async function getMenu() {
   const res = await fetch(`${BASE_URL}/menu`);

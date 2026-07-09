@@ -1,0 +1,157 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  FOLD ordering app backend — DynamoDB single-table design, 5 Lambda
+  functions, and an HTTP API (foldApi) that connects them to the frontend.
+
+Globals:
+  Function:
+    Runtime: nodejs24.x
+    Timeout: 10
+    MemorySize: 128
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref FoldTable
+
+Resources:
+  # ---------------------------------------------------------------------
+  # DynamoDB — single table, PK/SK composite key (see backend/lambdas for
+  # the access patterns each function relies on)
+  # ---------------------------------------------------------------------
+  FoldTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+
+  # ---------------------------------------------------------------------
+  # HTTP API — shared across all 5 routes, CORS open (no auth configured,
+  # matching the existing public foldApi)
+  # ---------------------------------------------------------------------
+  FoldHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+
+  # ---------------------------------------------------------------------
+  # Lambda functions
+  # ---------------------------------------------------------------------
+  GetCartFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldGetCart/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: dynamodb:Query
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        GetCart:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /GetCart/cart/{cartId}
+            Method: GET
+
+  UpdateCartItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldUpdateCartItem/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: dynamodb:UpdateItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        UpdateCartItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /updateCartItem/cart/{cartId}/menuItem/{menuItemId}
+            Method: POST
+
+  DeleteItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldDeleteItem/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: dynamodb:DeleteItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        DeleteFromCart:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /deleteFromCart/cart/{cartId}/menuItem/{menuItemId}
+            Method: DELETE
+
+  GetMenuItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldGetMenuItems/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: dynamodb:Scan
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        GetMenu:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /menu
+            Method: GET
+
+  PlaceOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldPlaceOrder/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:DeleteItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        PlaceOrder:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /placeOrder/cart/{cartId}
+            Method: POST
+
+Outputs:
+  ApiEndpoint:
+    Description: Base invoke URL for the foldApi HTTP API
+    Value: !Sub "https://${FoldHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  TableName:
+    Description: Name of the DynamoDB table
+    Value: !Ref FoldTable

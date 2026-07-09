@@ -1,0 +1,13 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "fold-api"
+resolve_s3 = false
+s3_bucket = "wits-sam-deployments"
+s3_prefix = "fold-api"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+
+[default.global.parameters]
+region = "us-east-1"

@@ -1,0 +1,244 @@
+{
+  "fold-api-FoldTable-1EZ1NB6Z458OP": [
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#1"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "sandwiches"
+          },
+          "description": {
+            "S": "Smoked turkey, crispy beef bacon, garlic aioli, arugula, pickled red onion on charcoal sourdough"
+          },
+          "emoji": {
+            "S": "\ud83e\udd6a"
+          },
+          "name": {
+            "S": "The Charcoal Club"
+          },
+          "price": {
+            "S": "18"
+          },
+          "tag": {
+            "S": "fan fave"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#2"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "sandwiches"
+          },
+          "description": {
+            "S": "House-made vegan mozzarella, caramelized onions, roasted garlic, dijon, thyme on toasted challah"
+          },
+          "emoji": {
+            "S": "\ud83e\udd6a"
+          },
+          "name": {
+            "S": "Golden Gate Melt"
+          },
+          "price": {
+            "S": "15"
+          },
+          "tag": {
+            "S": "meat-free"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#3"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "sandwiches"
+          },
+          "description": {
+            "S": "House-cured pastrami, deli mustard, spicy dill pickles, crunchy slaw on rye bread"
+          },
+          "emoji": {
+            "S": "\ud83e\udd69"
+          },
+          "name": {
+            "S": "The Pitmaster"
+          },
+          "price": {
+            "S": "19"
+          },
+          "tag": {
+            "S": "chef's pick"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#4"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "sandwiches"
+          },
+          "description": {
+            "S": "12-hour smoked brisket, horseradish mayo, pickled jalape\u00f1o, crunchy slaw on pretzel roll"
+          },
+          "emoji": {
+            "S": "\ud83e\udd69"
+          },
+          "name": {
+            "S": "Brisket Hour"
+          },
+          "price": {
+            "S": "20"
+          },
+          "tag": {
+            "S": "bestseller"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#5"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "wraps"
+          },
+          "description": {
+            "S": "Grilled chicken breast, avocado, roasted chickpeas, cucumber, spring mix, herb tahini in spinach wrap"
+          },
+          "emoji": {
+            "S": "\ud83e\udd51"
+          },
+          "name": {
+            "S": "Green Goddess Chicken"
+          },
+          "price": {
+            "S": "16"
+          },
+          "tag": {
+            "S": "healthy"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#6"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "wraps"
+          },
+          "description": {
+            "S": "Gochujang chicken, pickled daikon, kimchi slaw, scallions, sesame oil in toasted wrap"
+          },
+          "emoji": {
+            "S": "\ud83c\udf36\ufe0f"
+          },
+          "name": {
+            "S": "Seoul Bowl Wrap"
+          },
+          "price": {
+            "S": "16"
+          },
+          "tag": {
+            "S": "spicy"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#7"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "wraps"
+          },
+          "description": {
+            "S": "Pulled smoked beef brisket, chipotle black beans, corn salsa, lime-cilantro crema, crispy onions"
+          },
+          "emoji": {
+            "S": "\ud83c\udf2e"
+          },
+          "name": {
+            "S": "Smoke Signal"
+          },
+          "price": {
+            "S": "17"
+          },
+          "tag": {
+            "S": "bestseller"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "PK": {
+            "S": "MENUITEM#8"
+          },
+          "SK": {
+            "S": "DETAILS"
+          },
+          "category": {
+            "S": "wraps"
+          },
+          "description": {
+            "S": "Spiced lamb kofta, herb garlic tahini, roasted red pepper, olive tapenade, fresh mint"
+          },
+          "emoji": {
+            "S": "\ud83c\udf3f"
+          },
+          "name": {
+            "S": "The Levant"
+          },
+          "price": {
+            "S": "18"
+          },
+          "tag": {
+            "S": "chef's pick"
+          }
+        }
+      }
+    }
+  ]
+}
