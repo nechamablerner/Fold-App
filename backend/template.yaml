@@ -105,7 +105,7 @@ Resources:
           Type: HttpApi
           Properties:
             ApiId: !Ref FoldHttpApi
-            Path: /cart/menuItem/{menuItemId}
+            Path: /cart
             Method: POST
             Auth:
               Authorizer: CognitoAuthorizer
@@ -125,7 +125,7 @@ Resources:
           Type: HttpApi
           Properties:
             ApiId: !Ref FoldHttpApi
-            Path: /cart/menuItem/{menuItemId}
+            Path: /cart
             Method: DELETE
             Auth:
               Authorizer: CognitoAuthorizer

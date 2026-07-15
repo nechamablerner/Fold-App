@@ -15,19 +15,15 @@ export const handler = async (event) => {
   const userId = claims.sub;
 
   try {
-    const cartId = event.pathParameters?.cartId;
-    const menuItemId = event.pathParameters?.menuItemId;
-
     const body = JSON.parse(event.body || "{}");
-    const { quantity } = body;
+    const { menuItemId, quantity } = body;
 
-    if (!cartId || !menuItemId || quantity === undefined) {
+    if (!menuItemId || quantity === undefined) {
       return {
         statusCode: 400,
         headers: CORS_HEADERS,
         body: JSON.stringify({
-          message:
-            "Missing required fields: cartId (path), menuItemId (path), or quantity (body)",
+          message: "Missing required fields: menuItemId or quantity (body)",
         }),
       };
     }
@@ -35,7 +31,7 @@ export const handler = async (event) => {
     const params = {
       TableName: TABLE_NAME,
       Key: {
-        PK: `CART`,
+        PK: `CART#${userId}`,
         SK: `MENUITEM#${menuItemId}`,
       },
       UpdateExpression: "SET quantity = :newQuantity",

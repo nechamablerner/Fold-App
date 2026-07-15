@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { getCartId } from "../utils/cartId";
 import {
   getMenu,
   getCart,
@@ -20,15 +19,11 @@ export function useCart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const cartId = getCartId();
 
   const refresh = useCallback(async () => {
     try {
       setLoading(true);
-      const [cartRaw, menuItems] = await Promise.all([
-        getCart(cartId),
-        getMenu(),
-      ]);
+      const [cartRaw, menuItems] = await Promise.all([getCart(), getMenu()]);
 
       const menuById = new Map(menuItems.map((m) => [stripPrefix(m.PK), m]));
 
@@ -54,7 +49,7 @@ export function useCart() {
     } finally {
       setLoading(false);
     }
-  }, [cartId]);
+  }, []);
 
   useEffect(() => {
     refresh();
@@ -88,13 +83,13 @@ export function useCart() {
       );
 
       try {
-        await updateCartItem(cartId, menuItemId, newQuantity);
+        await updateCartItem(menuItemId, newQuantity);
       } catch (err) {
         setError(err.message);
         refresh(); // roll back to server state on failure
       }
     },
-    [cartId, cartItems, refresh],
+    [cartItems, refresh],
   );
 
   const updateQuantity = useCallback(
@@ -105,36 +100,36 @@ export function useCart() {
         ),
       );
       try {
-        await updateCartItem(cartId, menuItemId, newQuantity);
+        await updateCartItem(menuItemId, newQuantity);
       } catch (err) {
         setError(err.message);
         refresh();
       }
     },
-    [cartId, refresh],
+    [refresh],
   );
 
   const removeItem = useCallback(
     async (menuItemId) => {
       setCartItems((prev) => prev.filter((item) => item.id !== menuItemId));
       try {
-        await deleteFromCart(cartId, menuItemId);
+        await deleteFromCart(menuItemId);
       } catch (err) {
         setError(err.message);
         refresh();
       }
     },
-    [cartId, refresh],
+    [refresh],
   );
 
   // Finalizes the cart into an order (backend computes the authoritative total
   // and clears the cart). Any "payment" happens in the UI only — this is what
   // actually places the order.
   const checkout = useCallback(async () => {
-    const result = await placeOrder(cartId); // { orderId, total }
+    const result = await placeOrder(); // { orderId, total }
     await refresh();
     return result;
-  }, [cartId, refresh]);
+  }, [refresh]);
 
   return {
     cartItems,

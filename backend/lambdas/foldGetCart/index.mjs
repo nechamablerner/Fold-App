@@ -17,7 +17,7 @@ export const handler = async (event) => {
     console.log("User:", claims.sub);
 
     // 2. Build the partition key using the secure Cognito userId instead of an insecure path parameter
-    const pk = `CART`;
+    const pk = `CART#${userId}`;
 
     // 3. Query DynamoDB for this specific user's cart items
     const itemsResult = await dynamodb.send(

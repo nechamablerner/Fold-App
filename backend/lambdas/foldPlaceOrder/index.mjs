@@ -1,11 +1,11 @@
 // fold_placeOrder
-// POST /placeOrder/cart/{cartId}
+// POST /placeOrder (Cognito-authenticated; cart is identified by the JWT's userId)
 //
 // Finalizes a cart into an order:
-//   1. Reads all CART#<cartId>/MENUITEM#<id> line items
+//   1. Reads all CART#<userId>/MENUITEM#<id> line items
 //   2. Looks up each menu item's current price server-side (never trusts client totals)
 //   3. Writes ORDER#<orderId>/METADATA (status, total) + ORDER#<orderId>/MENUITEM#<id> line items
-//   4. Clears the cart (deletes the CART#<cartId> line items)
+//   4. Clears the cart (deletes the CART#<userId> line items)
 //
 // Env var required: TABLE_NAME
 
@@ -32,16 +32,6 @@ export const handler = async (event) => {
   const claims = event.requestContext.authorizer.jwt.claims;
   const userId = claims.sub;
   try {
-    const cartId = event.pathParameters?.cartId;
-
-    if (!cartId) {
-      return {
-        statusCode: 400,
-        headers: CORS_HEADERS,
-        body: JSON.stringify({ message: "Missing cartId in path" }),
-      };
-    }
-
     // 1. Read the cart's line items
     const cartResult = await docClient.send(
       new QueryCommand({
