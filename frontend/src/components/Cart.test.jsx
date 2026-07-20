@@ -1,4 +1,5 @@
 import React from "react";
+import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Cart from "./Cart";
@@ -34,7 +35,7 @@ describe("Cart Component", () => {
   test("clicking + button calls update quantity", async () => {
     const user = userEvent.setup();
 
-    const updateQuantityMock = jest.fn();
+    const updateQuantityMock = vi.fn();
 
     const cartItems = [
       {
