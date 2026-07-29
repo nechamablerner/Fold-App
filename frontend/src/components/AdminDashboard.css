@@ -1,0 +1,50 @@
+.admin-dashboard {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 48px;
+  background: linear-gradient(135deg, #0c0c0a 0%, #1a1a16 100%);
+  color: #fff;
+}
+
+.admin-dashboard__card {
+  max-width: 560px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.admin-dashboard__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  color: #e8ff6b;
+  margin-bottom: 10px;
+}
+
+.admin-dashboard__card h1 {
+  margin: 0 0 12px;
+  font-family: "Syne", sans-serif;
+  font-size: 36px;
+}
+
+.admin-dashboard__card p {
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+.admin-dashboard__button {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: #e8ff6b;
+  color: #0c0c0a;
+  cursor: pointer;
+}

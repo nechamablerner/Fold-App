@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 
 // Added signOut and user to the destructive props list
-const Navbar = ({ cartItems = [], signOut, user }) => {
+const Navbar = ({ cartItems = [], signOut, user, onOpenAdmin }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -16,6 +16,11 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
+
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
 
   return (
     <nav className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
@@ -47,11 +52,21 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
 
           <li>
             <button
+              className="navbar__admin"
+              onClick={onOpenAdmin}
+              type="button"
+            >
+              Dashboard
+            </button>
+          </li>
+
+          <li>
+            <button
               className="navbar__cta"
               onClick={() => scrollTo("cart")}
-              aria-label={`Cart, ${cartItems.length} item${cartItems.length === 1 ? "" : "s"}`}
+              aria-label={`Cart, ${cartItemCount} item${cartItemCount === 1 ? "" : "s"}`}
             >
-              <span aria-hidden="true">🛒 Cart ({cartItems.length})</span>
+              <span aria-hidden="true">🛒 Cart ({cartItemCount})</span>
             </button>
           </li>
 
