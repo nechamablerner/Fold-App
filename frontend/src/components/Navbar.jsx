@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 
 // Added signOut and user to the destructive props list
-const Navbar = ({ cartItems = [], signOut, user, onOpenAdmin }) => {
+const Navbar = ({ cartItems = [], signOut, user, isAdmin, onOpenAdmin }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -50,15 +50,17 @@ const Navbar = ({ cartItems = [], signOut, user, onOpenAdmin }) => {
             </li>
           )}
 
-          <li>
-            <button
-              className="navbar__admin"
-              onClick={onOpenAdmin}
-              type="button"
-            >
-              Dashboard
-            </button>
-          </li>
+          {isAdmin && (
+            <li>
+              <button
+                className="navbar__admin"
+                onClick={onOpenAdmin}
+                type="button"
+              >
+                Dashboard
+              </button>
+            </li>
+          )}
 
           <li>
             <button

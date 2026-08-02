@@ -1,50 +1,188 @@
-.admin-dashboard {
+.admin {
   min-height: 100vh;
+  background: #0c0c0a;
+  color: white;
+  display: flex;
+  font-family: "DM Sans", sans-serif;
+}
+
+.admin__sidebar {
+  width: 260px;
+  padding: 40px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin__logo {
+  font-family: "Syne", sans-serif;
+  color: #e8ff6b;
+  letter-spacing: 0.12em;
+  font-size: 22px;
+  margin-bottom: 50px;
+}
+
+.admin__sidebar button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.admin__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 10px 18px;
+  border: 1px solid rgba(232, 255, 107, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #e8ff6b;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.admin__back:hover {
+  background: rgba(232, 255, 107, 0.12);
+  border-color: #e8ff6b;
+  transform: translateX(-2px);
+}
+
+.admin__back:active {
+  transform: translateX(0);
+}
+
+.admin__sidebar button:hover,
+.admin__sidebar .active {
+  background: rgba(232, 255, 107, 0.1);
+  color: #e8ff6b;
+}
+
+.admin__content {
+  flex: 1;
+  padding: 50px;
+}
+
+.admin__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.admin__header h2 {
+  font-family: "Syne", sans-serif;
+  font-size: 36px;
+  margin: 0;
+}
+
+.admin__header p {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.admin__button {
+  background: linear-gradient(135deg, #e8ff6b, #c8f24b);
+  color: #0c0c0a;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cancel__button {
+  background: #252525;
+  color: #c8f24b;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin__table {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+}
+
+.admin__row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 22px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin__row--head {
+  font-family: "Syne", sans-serif;
+  color: #e8ff6b;
+}
+
+.admin__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.admin__actions button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.admin__actions .danger {
+  color: #ff6b6b;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 24px 48px;
-  background: linear-gradient(135deg, #0c0c0a 0%, #1a1a16 100%);
-  color: #fff;
 }
 
-.admin-dashboard__card {
-  max-width: 560px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.modal__card {
+  width: 420px;
+  padding: 35px;
   border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  background: #151512;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.admin-dashboard__eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 12px;
-  color: #e8ff6b;
-  margin-bottom: 10px;
+.modal input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 14px;
+  background: #0c0c0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
 }
 
-.admin-dashboard__card h1 {
-  margin: 0 0 12px;
-  font-family: "Syne", sans-serif;
-  font-size: 36px;
-}
-
-.admin-dashboard__card p {
-  margin: 0 0 24px;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-}
-
-.admin-dashboard__button {
-  font-family: "Syne", sans-serif;
-  font-weight: 700;
-  border: none;
-  border-radius: 999px;
-  padding: 12px 20px;
-  background: #e8ff6b;
-  color: #0c0c0a;
-  cursor: pointer;
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
 }
