@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-// import {
-//   getAdminMenu,
-//   createMenuItem,
-//   updateMenuItem,
-//   deleteMenuItem,
-// } from "../api/adminApi";
-
+import {
+  getAdminMenu,
+  createMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+} from "../utils/api";
 import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
@@ -14,7 +13,13 @@ export default function AdminDashboard() {
 
   async function loadMenu() {
     const data = await getAdminMenu();
-    setItems(data);
+
+    setItems(
+      data.map((item) => ({
+        ...item,
+        id: item.PK.replace("MENUITEM#", ""),
+      })),
+    );
   }
 
   useEffect(() => {
@@ -27,11 +32,11 @@ export default function AdminDashboard() {
   }
 
   async function handleSave(item) {
-    // if (item.id) {
-    //   await updateMenuItem(item);
-    // } else {
-    //   await createMenuItem(item);
-    // }
+    if (item.id) {
+      await updateMenuItem(item);
+    } else {
+      await createMenuItem(item);
+    }
 
     setEditing(null);
     loadMenu();
@@ -44,10 +49,6 @@ export default function AdminDashboard() {
 
         <nav>
           <button className="active">Menu</button>
-
-          <button>Orders</button>
-
-          <button>Users</button>
         </nav>
       </aside>
 
@@ -117,6 +118,7 @@ function MenuEditor({ item, close, save }) {
       <div className="modal__card">
         <h3>{item.id ? "Edit Item" : "New Item"}</h3>
 
+        <label className="modal__label">Name</label>
         <input
           placeholder="Name"
           value={form.name || ""}
@@ -128,6 +130,19 @@ function MenuEditor({ item, close, save }) {
           }
         />
 
+        <label className="modal__label">Description</label>
+        <textarea
+          placeholder="Description"
+          value={form.description || ""}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              description: e.target.value,
+            })
+          }
+        />
+
+        <label className="modal__label">Price</label>
         <input
           placeholder="Price"
           value={form.price || ""}
@@ -139,6 +154,7 @@ function MenuEditor({ item, close, save }) {
           }
         />
 
+        <label className="modal__label">Category</label>
         <input
           placeholder="Category"
           value={form.category || ""}
@@ -146,6 +162,30 @@ function MenuEditor({ item, close, save }) {
             setForm({
               ...form,
               category: e.target.value,
+            })
+          }
+        />
+
+        <label className="modal__label">Emoji</label>
+        <input
+          placeholder="Emoji"
+          value={form.emoji || ""}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              emoji: e.target.value,
+            })
+          }
+        />
+
+        <label className="modal__label">Tag</label>
+        <input
+          placeholder="Tag"
+          value={form.tag || ""}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              tag: e.target.value,
             })
           }
         />

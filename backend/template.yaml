@@ -23,9 +23,6 @@ Parameters:
     Description: "The ID of your existing Cognito App Client"
 
 Resources:
-  # ---------------------------------------------------------------------
-  # DynamoDB — single table
-  # ---------------------------------------------------------------------
   FoldTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -53,6 +50,7 @@ Resources:
         AllowMethods:
           - GET
           - POST
+          - PUT
           - DELETE
           - OPTIONS
         AllowHeaders:
@@ -147,6 +145,70 @@ Resources:
             ApiId: !Ref FoldHttpApi
             Path: /menu
             Method: GET
+
+  CreateMenuItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldCreateMenuItem/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Scan
+                - dynamodb:PutItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        CreateMenuItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /menu
+            Method: POST
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  UpdateMenuItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldUpdateMenuItem/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:UpdateItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        UpdateMenuItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /menu/{id}
+            Method: PUT
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  DeleteMenuItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/foldDeleteMenuItem/
+      Handler: index.handler
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:DeleteItem
+              Resource: !GetAtt FoldTable.Arn
+      Events:
+        DeleteMenuItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref FoldHttpApi
+            Path: /menu/{id}
+            Method: DELETE
+            Auth:
+              Authorizer: CognitoAuthorizer
 
   PlaceOrderFunction:
     Type: AWS::Serverless::Function

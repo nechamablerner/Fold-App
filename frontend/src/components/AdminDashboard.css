@@ -171,7 +171,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.modal input {
+.modal input,
+.modal textarea {
   width: 100%;
   margin-bottom: 15px;
   padding: 14px;
@@ -179,6 +180,25 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: white;
+}
+
+.modal textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+  outline: none;
+  border-color: #e8ff6b;
+  box-shadow: 0 0 0 3px rgba(232, 255, 107, 0.15);
+}
+
+.modal__card h3 {
+  margin: 0 0 24px;
+  font-family: "Syne", sans-serif;
+  font-size: 28px;
+  color: #e8ff6b;
 }
 
 .modal__actions {

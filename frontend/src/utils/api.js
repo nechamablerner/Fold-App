@@ -19,7 +19,7 @@ async function getAuthHeaders() {
 
     const token = session.tokens.idToken.toString();
     return {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
   } catch (error) {
@@ -74,5 +74,62 @@ export async function placeOrder() {
     headers: headers,
   });
   if (!res.ok) throw new Error("Failed to place order");
+  return res.json();
+}
+
+export async function getAdminMenu() {
+  const res = await fetch(`${BASE_URL}/menu`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch menu");
+  }
+
+  return res.json();
+}
+
+export async function createMenuItem(item) {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${BASE_URL}/menu`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(item),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create menu item");
+  }
+
+  return res.json();
+}
+
+export async function updateMenuItem(item) {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${BASE_URL}/menu/${item.id}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(item),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update menu item");
+  }
+
+  return res.json();
+}
+
+export async function deleteMenuItem(id) {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${BASE_URL}/menu/${id}`, {
+    method: "DELETE",
+    headers,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete menu item");
+  }
+
   return res.json();
 }
