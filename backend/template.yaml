@@ -21,6 +21,9 @@ Parameters:
   ExistingUserPoolClientId:
     Type: String
     Description: "The ID of your existing Cognito App Client"
+  SenderEmail:
+    Type: String
+    Description: "SES-verified email address that order confirmation emails are sent from"
 
 Resources:
   # ---------------------------------------------------------------------
@@ -153,6 +156,9 @@ Resources:
     Properties:
       CodeUri: lambdas/foldPlaceOrder/
       Handler: index.handler
+      Environment:
+        Variables:
+          SENDER_EMAIL: !Ref SenderEmail
       Policies:
         - Statement:
             - Effect: Allow
@@ -162,6 +168,12 @@ Resources:
                 - dynamodb:PutItem
                 - dynamodb:DeleteItem
               Resource: !GetAtt FoldTable.Arn
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ses:SendEmail
+                - ses:SendRawEmail
+              Resource: "*"
       Events:
         PlaceOrder:
           Type: HttpApi
