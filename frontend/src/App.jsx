@@ -20,6 +20,7 @@ const NYC_TAX_RATE = 0.08875;
 
 /* App only handles authentication.
   user and signOut are passed into the authenticated application. */
+
 function App() {
   return (
     <Authenticator>
@@ -49,9 +50,15 @@ function AuthenticatedApp({ signOut, user }) {
     async function checkAdminStatus() {
       try {
         const session = await fetchAuthSession();
-        const groups = session.tokens?.idToken?.payload["cognito:groups"] || [];
-        console.log("Cognito groups:", groups);
-        setIsAdmin(groups.includes("Admin"));
+        const rawGroups =
+          session.tokens?.idToken?.payload?.["cognito:groups"] ?? [];
+        const groups = Array.isArray(rawGroups) ? rawGroups : [rawGroups];
+        setIsAdmin(
+          groups
+            .filter(Boolean)
+            .map((group) => String(group).trim().toLowerCase())
+            .some((group) => group === "admin"),
+        );
       } catch (error) {
         console.error("Could not determine admin status:", error);
         setIsAdmin(false);
