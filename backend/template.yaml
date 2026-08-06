@@ -21,6 +21,10 @@ Parameters:
   ExistingUserPoolClientId:
     Type: String
     Description: "The ID of your existing Cognito App Client"
+  GeminiApiKey:
+    Type: String
+    NoEcho: true
+    Description: API key for Google Gemini
 
 Resources:
   # ---------------------------------------------------------------------
@@ -171,6 +175,26 @@ Resources:
             Method: POST
             Auth:
               Authorizer: CognitoAuthorizer
+
+  ChatbotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: fold-chatbot
+      CodeUri: lambdas/foldChatbot/
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Environment:
+        Variables:
+          GEMINI_API_KEY: "YOUR_GEMINI_API_KEY_HERE"
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: team2
+      Events:
+        ChatApi:
+          Type: HttpApi
+          Properties:
+            Path: /chat
+            Method: POST
 
 Outputs:
   ApiEndpoint:
