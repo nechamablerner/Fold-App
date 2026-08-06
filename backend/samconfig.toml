@@ -6,7 +6,7 @@ resolve_s3 = true
 s3_prefix = "fold-api"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "ExistingUserPoolId=\"us-east-1_09qgNGF6c\" ExistingUserPoolClientId=\"64v5hjuq65698ukkl0iidjrlbo\""
+parameter_overrides = "ExistingUserPoolId=\"us-east-1_xgJKqLcvZ\" ExistingUserPoolClientId=\"k1q6fq0b39763tei91qa1iarg\" SenderEmail=\"dassiberry@gmail.com\""
 image_repositories = []
 
 [default.global.parameters]
