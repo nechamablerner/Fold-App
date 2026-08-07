@@ -10,7 +10,7 @@ const CORS_HEADERS = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
-  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Methods": "PUT,OPTIONS",
 };
 
 export const handler = async (event) => {
@@ -19,15 +19,9 @@ export const handler = async (event) => {
     const isAdmin = getAdminStatusFromEvent(event);
 
     if (!isAdmin) {
-      const path =
-        event.rawPath ||
-        event.path ||
-        event.requestContext?.http?.path ||
-        "(unknown)";
       console.log("Admin authorization failed", {
-        path,
+        eventPath: event.path,
         pathParameters: event.pathParameters,
-        authorizerPresent: !!event?.requestContext?.authorizer,
         claims: event?.requestContext?.authorizer?.jwt?.claims || {},
         headers: event.headers,
       });
