@@ -17,6 +17,11 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
     setMenuOpen(false);
   };
 
+  const itemCount = cartItems.reduce(
+    (sum, item) => sum + (Number(item.quantity) || 0),
+    0,
+  );
+
   return (
     <nav className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
       <div className="navbar__inner">
@@ -41,7 +46,6 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
           {user?.signInDetails?.loginId && (
             <li className="navbar__welcome">
               <span>Welcome, {user.signInDetails.loginId}!</span>{" "}
-              {/* [cite: 221] */}
             </li>
           )}
 
@@ -49,9 +53,9 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
             <button
               className="navbar__cta"
               onClick={() => scrollTo("cart")}
-              aria-label={`Cart, ${cartItems.length} item${cartItems.length === 1 ? "" : "s"}`}
+              aria-label={`Cart, ${itemCount} item${itemCount === 1 ? "" : "s"}`}
             >
-              <span aria-hidden="true">🛒 Cart ({cartItems.length})</span>
+              <span aria-hidden="true">🛒 Cart ({itemCount})</span>
             </button>
           </li>
 

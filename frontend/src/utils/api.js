@@ -3,7 +3,7 @@
 
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const BASE_URL = "https://tkzt0gym4e.execute-api.us-east-1.amazonaws.com";
+const BASE_URL = "https://3rhm69t8pc.execute-api.us-east-1.amazonaws.com";
 async function getAuthHeaders() {
   try {
     const session = await fetchAuthSession();
