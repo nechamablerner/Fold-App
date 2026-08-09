@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import { useCart } from "./hooks/useCart";
 import { Authenticator } from "@aws-amplify/ui-react"; // [cite: 214]
 import "@aws-amplify/ui-react/styles.css";
+import { Chatbot } from "./components/Chatbot.jsx";
 
 const NYC_TAX_RATE = 0.08875;
 
@@ -56,6 +57,7 @@ function App() {
             />
           )}
           <Footer />
+          <Chatbot />
         </div>
       )}
     </Authenticator> // [cite: 225]

@@ -1,12 +1,12 @@
 version = 0.1
 
 [default.deploy.parameters]
-stack_name = "fold-api-2"
+stack_name = "fold-api-v2"
 resolve_s3 = true
-s3_prefix = "fold-api"
+s3_prefix = "fold-api-v2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "ExistingUserPoolId=\"us-east-1_xgJKqLcvZ\" ExistingUserPoolClientId=\"k1q6fq0b39763tei91qa1iarg\" SenderEmail=\"dassiberry@gmail.com\""
+parameter_overrides = "ExistingUserPoolId=\"us-east-1_09qgNGF6c\" ExistingUserPoolClientId=\"64v5hjuq65698ukkl0iidjrlbo\""
 image_repositories = []
 
 [default.global.parameters]

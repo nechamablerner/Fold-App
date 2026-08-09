@@ -21,9 +21,10 @@ Parameters:
   ExistingUserPoolClientId:
     Type: String
     Description: "The ID of your existing Cognito App Client"
-  SenderEmail:
+  GeminiApiKey:
     Type: String
-    Description: "SES-verified email address that order confirmation emails are sent from"
+    NoEcho: true
+    Description: API key for Google Gemini
 
 Resources:
   # ---------------------------------------------------------------------
@@ -156,9 +157,6 @@ Resources:
     Properties:
       CodeUri: lambdas/foldPlaceOrder/
       Handler: index.handler
-      Environment:
-        Variables:
-          SENDER_EMAIL: !Ref SenderEmail
       Policies:
         - Statement:
             - Effect: Allow
@@ -168,12 +166,6 @@ Resources:
                 - dynamodb:PutItem
                 - dynamodb:DeleteItem
               Resource: !GetAtt FoldTable.Arn
-        - Statement:
-            - Effect: Allow
-              Action:
-                - ses:SendEmail
-                - ses:SendRawEmail
-              Resource: "*"
       Events:
         PlaceOrder:
           Type: HttpApi
@@ -183,6 +175,26 @@ Resources:
             Method: POST
             Auth:
               Authorizer: CognitoAuthorizer
+
+  ChatbotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: fold-chatbot
+      CodeUri: lambdas/foldChatbot/
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Environment:
+        Variables:
+          GEMINI_API_KEY: "YOUR_GEMINI_API_KEY_HERE"
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: team2
+      Events:
+        ChatApi:
+          Type: HttpApi
+          Properties:
+            Path: /chat
+            Method: POST
 
 Outputs:
   ApiEndpoint:
