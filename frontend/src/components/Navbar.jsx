@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 
 // Added signOut and user to the destructive props list
-const Navbar = ({ cartItems = [], signOut, user }) => {
+const Navbar = ({ cartItems = [], signOut, user, isAdmin, onOpenAdmin }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -17,8 +17,8 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
     setMenuOpen(false);
   };
 
-  const itemCount = cartItems.reduce(
-    (sum, item) => sum + (Number(item.quantity) || 0),
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
     0,
   );
 
@@ -46,6 +46,19 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
           {user?.signInDetails?.loginId && (
             <li className="navbar__welcome">
               <span>Welcome, {user.signInDetails.loginId}!</span>{" "}
+              {/* [cite: 221] */}
+            </li>
+          )}
+
+          {isAdmin && (
+            <li>
+              <button
+                className="navbar__admin"
+                onClick={onOpenAdmin}
+                type="button"
+              >
+                Dashboard
+              </button>
             </li>
           )}
 
@@ -53,9 +66,9 @@ const Navbar = ({ cartItems = [], signOut, user }) => {
             <button
               className="navbar__cta"
               onClick={() => scrollTo("cart")}
-              aria-label={`Cart, ${itemCount} item${itemCount === 1 ? "" : "s"}`}
+              aria-label={`Cart, ${cartItemCount} item${cartItemCount === 1 ? "" : "s"}`}
             >
-              <span aria-hidden="true">🛒 Cart ({itemCount})</span>
+              <span aria-hidden="true">🛒 Cart ({cartItemCount})</span>
             </button>
           </li>
 

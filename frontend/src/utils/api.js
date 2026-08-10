@@ -4,29 +4,50 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
 const BASE_URL = "https://3rhm69t8pc.execute-api.us-east-1.amazonaws.com";
-async function getAuthHeaders() {
-  try {
-    const session = await fetchAuthSession();
 
-    if (!session?.tokens?.idToken) {
+// Fetch auth headers. Options:
+//  - requireIdToken (boolean): when true, throw if only an accessToken is present.
+async function getAuthHeaders(options = {}) {
+  const { requireIdToken = false } = options;
+  try {
+    const session = await fetchAuthSession({ forceRefresh: true });
+
+    const idToken = session?.tokens?.idToken?.toString?.();
+    const accessToken = session?.tokens?.accessToken?.toString?.();
+    const token = idToken || accessToken;
+
+    if (!token) {
       console.warn(
         "No active Cognito session found. User might be logged out.",
       );
-      return {
-        "Content-Type": "application/json",
-      };
+      return { "Content-Type": "application/json" };
     }
 
-    const token = session.tokens.idToken.toString();
+    if (requireIdToken && !idToken) {
+      // Fail early for admin routes that require identity claims (groups).
+      const err = new Error(
+        "MISSING_ID_TOKEN: Admin actions require an ID token with identity/group claims. Only access token available.",
+      );
+      err.code = "MISSING_ID_TOKEN";
+      throw err;
+    }
+
+    // Attach whichever token is available (idToken preferred).
+    // Debug: indicate which token we attached (remove in production).
+    try {
+      const preview = token && token.length > 20 ? token.slice(0, 20) + "..." : token;
+      console.debug("getAuthHeaders: attaching", idToken ? "idToken" : "accessToken", { preview });
+    } catch (e) {
+      /* ignore logging errors */
+    }
     return {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
   } catch (error) {
     console.error("Failed to fetch auth session:", error);
-    return {
-      "Content-Type": "application/json",
-    };
+    // Propagate error for callers that expect to handle it (admin flows).
+    throw error;
   }
 }
 
@@ -40,7 +61,7 @@ export async function getCart() {
   const headers = await getAuthHeaders();
   const res = await fetch(`${BASE_URL}/cart`, {
     method: "GET",
-    headers: headers, // [cite: 270]
+    headers: headers,
   });
   if (!res.ok) throw new Error("Failed to fetch cart");
   return res.json();
@@ -74,5 +95,62 @@ export async function placeOrder() {
     headers: headers,
   });
   if (!res.ok) throw new Error("Failed to place order");
+  return res.json();
+}
+
+export async function getAdminMenu() {
+  const res = await fetch(`${BASE_URL}/menu`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch menu");
+  }
+
+  return res.json();
+}
+
+export async function createMenuItem(item) {
+  const headers = await getAuthHeaders({ requireIdToken: true });
+
+  const res = await fetch(`${BASE_URL}/menu`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(item),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create menu item");
+  }
+
+  return res.json();
+}
+
+export async function updateMenuItem(item) {
+  const headers = await getAuthHeaders({ requireIdToken: true });
+
+  const res = await fetch(`${BASE_URL}/menu/${item.id}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(item),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update menu item");
+  }
+
+  return res.json();
+}
+
+export async function deleteMenuItem(id) {
+  const headers = await getAuthHeaders({ requireIdToken: true });
+
+  const res = await fetch(`${BASE_URL}/menu/${id}`, {
+    method: "DELETE",
+    headers,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete menu item");
+  }
+
   return res.json();
 }

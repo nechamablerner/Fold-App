@@ -3,13 +3,11 @@ import { Amplify } from "aws-amplify";
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: "us-east-1_xgJKqLcvZ", // Keep your real pool ID here
-      userPoolClientId: "k1q6fq0b39763tei91qa1iarg", // Keep your real client ID here
+      userPoolId: "us-east-1_09qgNGF6c",
+      userPoolClientId: "64v5hjuq65698ukkl0iidjrlbo",
       loginWith: {
         email: true,
       },
     },
   },
 });
-
-console.log("Amplify is initialized!");
