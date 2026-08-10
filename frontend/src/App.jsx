@@ -130,7 +130,7 @@ function AuthenticatedApp({ signOut, user }) {
           )}
           <Footer />
           <Chatbot />
-        </div>
+        </>
       )}
     </div>
   );
