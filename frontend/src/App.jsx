@@ -15,6 +15,7 @@ import { useCart } from "./hooks/useCart";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { Chatbot } from "./components/Chatbot.jsx";
 
 const NYC_TAX_RATE = 0.08875;
 
@@ -128,7 +129,8 @@ function AuthenticatedApp({ signOut, user }) {
             />
           )}
           <Footer />
-        </>
+          <Chatbot />
+        </div>
       )}
     </div>
   );
