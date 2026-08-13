@@ -3,7 +3,7 @@
 
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const BASE_URL = "https://3rhm69t8pc.execute-api.us-east-1.amazonaws.com";
+const BASE_URL = "https://m6z3j88c27.execute-api.us-east-1.amazonaws.com";
 
 // Fetch auth headers. Options:
 //  - requireIdToken (boolean): when true, throw if only an accessToken is present.
